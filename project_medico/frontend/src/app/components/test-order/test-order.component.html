@@ -1,0 +1,71 @@
+<div class="container">
+  <h2>Test Order Management</h2>
+  
+  <!-- Add Order Button -->
+  <button (click)="toggleForm()" class="btn btn-success">
+    {{showForm ? 'Cancel' : 'Create New Order'}}
+  </button>
+
+  <!-- Add Order Form -->
+  <div *ngIf="showForm" class="form-section">
+    <h4>Create New Order</h4>
+    <form (ngSubmit)="createOrder()">
+      <div class="form-group">
+        <label>Patient Name:</label>
+        <input type="text" [(ngModel)]="newOrder.patientName" name="patientName" required class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Phone:</label>
+        <input type="text" [(ngModel)]="newOrder.phone" name="phone" required class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Select Test:</label>
+        <select (change)="onTestSelect($event)" name="test" required class="form-control">
+          <option value="">Select a test</option>
+          <option *ngFor="let test of availableTests" [value]="test.id">
+            {{test.testName}} - {{test.testCode}} (${{test.price}})
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!newOrder.test.id">Create Order</button>
+    </form>
+  </div>
+
+  <!-- Today's Orders -->
+  <div class="orders-list">
+    <h4>Today's Orders</h4>
+    <div *ngIf="todayOrders.length === 0" class="no-orders">
+      No orders found for today.
+    </div>
+    <table *ngIf="todayOrders.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>Order Number</th>
+          <th>Patient Name</th>
+          <th>Phone</th>
+          <th>Test Name</th>
+          <th>Test Code</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Order Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of todayOrders">
+          <td>{{order.orderNumber}}</td>
+          <td>{{order.patientName}}</td>
+          <td>{{order.phone}}</td>
+          <td>{{order.test.testName}}</td>
+          <td>{{order.test.testCode}}</td>
+          <td>${{order.test.price}}</td>
+          <td>
+            <span class="status" [ngClass]="{'status-pending': order.status === 'PENDING', 'status-completed': order.status === 'COMPLETED'}">
+              {{order.status}}
+            </span>
+          </td>
+          <td>{{order.orderDate}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

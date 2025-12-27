@@ -1,0 +1,31 @@
+<div class="app-container">
+  <header class="header">
+    <h1>{{title}}</h1>
+    <nav class="nav-tabs">
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'test-master'"
+        (click)="setActiveTab('test-master')">
+        Test Master
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'test-order'"
+        (click)="setActiveTab('test-order')">
+        Test Orders
+      </button>
+      <button 
+        class="nav-tab" 
+        [class.active]="activeTab === 'test-result'"
+        (click)="setActiveTab('test-result')">
+        Result Entry
+      </button>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <app-test-master *ngIf="activeTab === 'test-master'"></app-test-master>
+    <app-test-order *ngIf="activeTab === 'test-order'"></app-test-order>
+    <app-test-result *ngIf="activeTab === 'test-result'"></app-test-result>
+  </main>
+</div>

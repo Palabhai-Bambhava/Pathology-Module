@@ -1,0 +1,71 @@
+<div class="container">
+  <h2>Test Result Entry</h2>
+  
+  <!-- Pending Orders List -->
+  <div class="pending-orders">
+    <h4>Pending Orders</h4>
+    <div *ngIf="pendingOrders.length === 0" class="no-orders">
+      No pending orders found.
+    </div>
+    <table *ngIf="pendingOrders.length > 0" class="table">
+      <thead>
+        <tr>
+          <th>Order Number</th>
+          <th>Patient Name</th>
+          <th>Test Name</th>
+          <th>Test Code</th>
+          <th>Normal Range</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of pendingOrders">
+          <td>{{order.orderNumber}}</td>
+          <td>{{order.patientName}}</td>
+          <td>{{order.test.testName}}</td>
+          <td>{{order.test.testCode}}</td>
+          <td>{{order.test.normalRange}}</td>
+          <td>
+            <button (click)="selectOrder(order)" class="btn btn-primary">Enter Result</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Result Entry Form -->
+  <div *ngIf="selectedOrder" class="result-form">
+    <h4>Enter Result for Order: {{selectedOrder.orderNumber}}</h4>
+    
+    <div class="order-details">
+      <p><strong>Patient:</strong> {{selectedOrder.patientName}}</p>
+      <p><strong>Test:</strong> {{selectedOrder.test.testName}} ({{selectedOrder.test.testCode}})</p>
+      <p><strong>Normal Range:</strong> {{selectedOrder.test.normalRange}}</p>
+    </div>
+
+    <!-- Show existing result if available -->
+    <div *ngIf="existingResult" class="existing-result">
+      <h5>Existing Result</h5>
+      <p><strong>Result Value:</strong> {{existingResult.testResultValue}}</p>
+      <p><strong>Technician Notes:</strong> {{existingResult.technicianNotes}}</p>
+      <p><strong>Result Date:</strong> {{existingResult.resultDate}}</p>
+      <button (click)="resetForm()" class="btn btn-secondary">Back to Orders</button>
+    </div>
+
+    <!-- Result entry form -->
+    <form *ngIf="!existingResult" (ngSubmit)="submitResult()">
+      <div class="form-group">
+        <label>Test Result Value:</label>
+        <input type="text" [(ngModel)]="newResult.testResultValue" name="testResultValue" required class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Technician Notes:</label>
+        <textarea [(ngModel)]="newResult.technicianNotes" name="technicianNotes" rows="3" class="form-control"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">Submit Result</button>
+        <button type="button" (click)="resetForm()" class="btn btn-secondary">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

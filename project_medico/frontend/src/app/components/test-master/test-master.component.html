@@ -1,0 +1,82 @@
+<div>
+  <h2>Test Master</h2>
+  
+  <!-- Search -->
+  <div>
+    <input [(ngModel)]="searchTerm" placeholder="Search tests">
+    <button (click)="searchTests()">Search</button>
+  </div>
+
+  <!-- Search Results -->
+  <div *ngIf="searchResults.length > 0">
+    <h4>Search Results</h4>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Code</th>
+        <th>Sample</th>
+        <th>Range</th>
+        <th>Price</th>
+      </tr>
+      <tr *ngFor="let test of searchResults">
+        <td>{{test.testName}}</td>
+        <td>{{test.testCode}}</td>
+        <td>{{test.sampleType}}</td>
+        <td>{{test.normalRange}}</td>
+        <td>${{test.price}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Add Test Button -->
+  <button (click)="toggleForm()">{{showForm ? 'Cancel' : 'Add Test'}}</button>
+
+  <!-- Add Form -->
+  <div *ngIf="showForm">
+    <h4>Add New Test</h4>
+    <form (ngSubmit)="createTest()">
+      <div>
+        <label>Test Name:</label>
+        <input [(ngModel)]="newTest.testName" name="testName" required>
+      </div>
+      <div>
+        <label>Test Code:</label>
+        <input [(ngModel)]="newTest.testCode" name="testCode" required>
+      </div>
+      <div>
+        <label>Sample Type:</label>
+        <input [(ngModel)]="newTest.sampleType" name="sampleType" required>
+      </div>
+      <div>
+        <label>Normal Range:</label>
+        <input [(ngModel)]="newTest.normalRange" name="normalRange">
+      </div>
+      <div>
+        <label>Price:</label>
+        <input type="number" [(ngModel)]="newTest.price" name="price" required>
+      </div>
+      <button type="submit">Create Test</button>
+    </form>
+  </div>
+
+  <!-- All Tests -->
+  <div>
+    <h4>All Tests</h4>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Code</th>
+        <th>Sample</th>
+        <th>Range</th>
+        <th>Price</th>
+      </tr>
+      <tr *ngFor="let test of tests">
+        <td>{{test.testName}}</td>
+        <td>{{test.testCode}}</td>
+        <td>{{test.sampleType}}</td>
+        <td>{{test.normalRange}}</td>
+        <td>${{test.price}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
